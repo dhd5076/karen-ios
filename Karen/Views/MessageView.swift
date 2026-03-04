@@ -6,14 +6,31 @@
 //
 
 import SwiftUI
+import Foundation
 
-struct MessageView: View(contet: String) {
+struct MessageView: View {
+    let message: Message
+    
     var body: some View {
-        Text("Test Message")
-            .foregroundStyle(.secondary)
-            .padding(.top, 12)
+        HStack {
+            if message.role == .assistant {
+                Spacer()
+                Text("User Message")
+                    .padding()
+                    .background(.green)
+                    .cornerRadius(16)
+            }
+            if message.role == .user {
+                Text("Assistant Message")
+                    .padding()
+                    .background(.gray)
+                    .cornerRadius(16)
+                Spacer()
+            }
+        }
     }
 }
 #Preview {
-    MessageView()
+    MessageView(message: Message(id: UUID(), content: "Hello World", role: .assistant))
+    MessageView(message: Message(id: UUID(), content: "Hello World", role: .user))
 }
