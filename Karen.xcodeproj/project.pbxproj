@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		65BD35302F69D9080051BFF9 /* .swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BD352F2F69D9050051BFF9 /* .swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
-		65BAB4952F550E2300A9449B /* Karen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karen.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		65BD352F2F69D9050051BFF9 /* .swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swift; sourceTree = "<group>"; };
+		65BD35352F69DBAA0051BFF9 /* Karen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -46,16 +51,9 @@
 			isa = PBXGroup;
 			children = (
 				65BAB4972F550E2300A9449B /* Karen */,
-				65BAB4962F550E2300A9449B /* Products */,
+				65BD352F2F69D9050051BFF9 /* .swift */,
+				65BD35352F69DBAA0051BFF9 /* Karen.app */,
 			);
-			sourceTree = "<group>";
-		};
-		65BAB4962F550E2300A9449B /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				65BAB4952F550E2300A9449B /* Karen.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -80,7 +78,7 @@
 			packageProductDependencies = (
 			);
 			productName = Karen;
-			productReference = 65BAB4952F550E2300A9449B /* Karen.app */;
+			productReference = 65BD35352F69DBAA0051BFF9 /* Karen.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -108,7 +106,7 @@
 			mainGroup = 65BAB48C2F550E2300A9449B;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 65BAB4962F550E2300A9449B /* Products */;
+			productRefGroup = 65BAB48C2F550E2300A9449B;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -132,6 +130,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65BD35302F69D9080051BFF9 /* .swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +270,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Karen/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Karen records your location to better answer your queries";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Karen records your location to better answer your queries";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -306,6 +307,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Karen/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Karen records your location to better answer your queries";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Karen records your location to better answer your queries";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

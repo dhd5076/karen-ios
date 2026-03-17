@@ -13,11 +13,36 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
-                NavigationLink("Open Chat") {
+                Section {
+                    NavigationLink {
+
+                    } label: {
+                        HStack {
+                            Image(systemName: "person.fill")
+                                .font(.title2)
+                                .padding()
+                                .background(.gray)
+                                .clipShape(Circle())
+
+                            VStack(alignment: .leading) {
+                                Text("Dylan Dunn")
+                                    .font(.title2)
+
+                                Text("Manage Account")
+                                    .font(.footnote)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                }
+                NavigationLink {
                     ChatView()
+                } label: {
+                    Label("Chat", systemImage: "message.fill")
+                        .foregroundStyle(.primary)
                 }
             }
-            .navigationTitle("Conversations")
+            .navigationTitle("Karen")
             .searchable(text: $searchText, prompt: "Search")
         }
     }
