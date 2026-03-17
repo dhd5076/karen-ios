@@ -11,8 +11,10 @@ import Combine
 @MainActor
 final class AppState: ObservableObject {
     let locationService: LocationService
+    let apiService: APIService
     
     init() {
-        self.locationService = LocationService()
+        self.apiService = APIService()
+        self.locationService = LocationService(api: self.apiService)
     }
 }
