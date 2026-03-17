@@ -11,22 +11,28 @@ import Foundation
 struct MessageView: View {
     let message: Message
     
+    private var isUser: Bool {
+            message.role == .user
+        }
+    
+    private var bubbleColor: Color {
+        isUser ? .blue : .black
+    }
+    
     var body: some View {
-        HStack {
-            if message.role == .assistant {
-                Spacer()
-                Text("User Message")
-                    .padding()
-                    .background(.green)
-                    .cornerRadius(16)
+        HStack() {
+            if isUser {
+                Spacer(minLength: 40)
             }
-            if message.role == .user {
-                Text("Assistant Message")
-                    .padding()
-                    .background(.gray)
-                    .cornerRadius(16)
-                Spacer()
+            Text(message.content)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .background(bubbleColor)
+                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+            if !isUser {
+                Spacer(minLength: 40)
             }
+            
         }
     }
 }

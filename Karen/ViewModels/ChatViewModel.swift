@@ -12,11 +12,16 @@ import Foundation
 class ChatViewModel: ObservableObject {
     @Published var messages: [Message] = []
     
-    
     init() {
-        messages = [
-            Message(id: UUID(), content: "Hello World", role: .user),
-            Message(id: UUID(), content: "Hello World", role: .assistant)
-        ]
+        //TODO:Implement initializer for ChatViewModel,
+    }
+    
+    func sendMessage(content: String) {
+        //TODO: implement API Service call
+        let newMessage = Message(id: UUID(), content: content, role: .user)
+        messages.append(newMessage)
+        //TODO: Remove this after testing
+        let testReply = Message(id: UUID(), content: newMessage.content, role: .assistant)
+        messages.append(testReply)
     }
 }

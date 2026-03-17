@@ -9,8 +9,17 @@ import SwiftUI
 
 
 struct ContentView: View {
+    @State private var searchText = ""
     var body: some View {
-        ChatView()
+        NavigationStack {
+            List {
+                NavigationLink("Open Chat") {
+                    ChatView()
+                }
+            }
+            .navigationTitle("Conversations")
+            .searchable(text: $searchText, prompt: "Search")
+        }
     }
 }
 

@@ -8,37 +8,43 @@
 import SwiftUI
 
 struct ChatView: View {
+    @State private var inputText = ""
     @StateObject private var viewModel = ChatViewModel()
-    @State private var inputContent: String = ""
-    @FocusState private var isInputFocused: Bool
-    
+
     var body: some View {
         VStack {
             ScrollView {
-                ForEach(viewModel.messages) { message in
-                    MessageView(message: message);
-                }
-            }
-            
-            TextField("Ask Anything", text: $inputContent, axis: .vertical)
-                .lineLimit(1...5)
-                .focused($isInputFocused)
-                .padding()
-                .glassEffect(.regular, in: .rect(cornerRadius: 12))
-                .overlay(alignment: .trailing) {
-                    Button {
-                        isInputFocused = false
-                    } label: {
-                        Image(systemName: "arrow.up.circle.fill")
-                            .font(.largeTitle)
+                VStack(spacing: 0) {
+                    ForEach(viewModel.messages) { message in
+                        MessageView(message: message)
                     }
-                    .glassEffect()
-                    .tint(.white)
-                    .padding()
                 }
                 .padding()
+                .frame(maxWidth: .infinity, minHeight: 0)
+            }
+            .navigationTitle("Chat")
+            .navigationBarTitleDisplayMode(.inline)
+            .scrollDismissesKeyboard(.interactively)
+            .safeAreaInset(edge: .bottom) {
+                HStack(alignment: .bottom, spacing: 8) {
+                    TextField("Ask Anything", text: $inputText, axis: .vertical)
+                        .lineLimit(1...5)
+                        .padding()
+                        .glassEffect(.regular, in: .rect(cornerRadius: 18))
+                    Button {
+                        viewModel.sendMessage(content: inputText)
+                        inputText = ""
+                    } label: {
+                        Image(systemName: "arrow.up")
+                            .foregroundStyle(.foreground)
+                            .bold()
+                    }
+                    .padding()
+                    .glassEffect(.regular, in: .circle)
+                }
+                .padding()
+            }
         }
-        .background(.black)
     }
 }
 
