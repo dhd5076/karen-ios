@@ -9,6 +9,7 @@ import SwiftUI
 import Combine
 import Foundation
 
+@MainActor
 class ChatViewModel: ObservableObject {
     @Published var messages: [Message] = []
     

@@ -21,6 +21,7 @@ final class APIService {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer SECRET", forHTTPHeaderField: "Authorization")
         request.httpBody = try encoder.encode(body)
 
         let (_, response) = try await URLSession.shared.data(for: request)

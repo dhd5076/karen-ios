@@ -22,7 +22,7 @@ final class LocationService: NSObject, ObservableObject, CLLocationManagerDelega
         
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyBest
-        manager.distanceFilter = 0
+        manager.distanceFilter = 10.0
         
         manager.requestAlwaysAuthorization()
         manager.startUpdatingLocation()
