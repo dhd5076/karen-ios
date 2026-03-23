@@ -7,13 +7,29 @@
 
 import Foundation
 
-struct Message : Identifiable {
-    let id: UUID
+struct Message : Identifiable, Codable {
+    let id: UUID?
+    let conversationID: UUID
     let content: String
     let role: Role
+    let timestamp: Date
+    
+    init(
+        id: UUID? = nil,
+        conversationID: UUID,
+        content: String,
+        role: Role,
+        timestamp: Date
+    ) {
+        self.id = id
+        self.conversationID = conversationID
+        self.content = content
+        self.role = role
+        self.timestamp = timestamp
+    }
 }
 
-enum Role {
+enum Role: Codable {
     case user
     case assistant
 }

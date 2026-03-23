@@ -37,6 +37,14 @@ struct MessageView: View {
     }
 }
 #Preview {
-    MessageView(message: Message(id: UUID(), content: "Hello World", role: .assistant))
-    MessageView(message: Message(id: UUID(), content: "Hello World", role: .user))
+    MessageView(message: Message(id: UUID(),
+                                 conversationID: UUID(),
+                                 content: "Hello World",
+                                 role: .assistant,
+                                 timestamp: Date.now))
+    MessageView(message: Message(id: UUID(),
+                                 conversationID: UUID(),
+                                 content: "Hello World",
+                                 role: .user,
+                                 timestamp: Date.now))
 }

@@ -34,10 +34,10 @@ final class LocationService: NSObject, ObservableObject, CLLocationManagerDelega
         print("Latitude: \(location.coordinate.latitude)")
         print("Longitude: \(location.coordinate.longitude)")
         
-        logCurrentLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, timestamp: location.timestamp)
+        logLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, timestamp: location.timestamp)
     }
     
-    func logCurrentLocation(latitude: Double, longitude: Double, timestamp: Date) {
+    func logLocation(latitude: Double, longitude: Double, timestamp: Date) {
         let payload = Location(
             type: "device",
             latitude: latitude,
