@@ -15,7 +15,13 @@ final class ChatService {
     }
     
     func sendMessage(_ message: Message) async throws {
-        try await api.post("chat", body: message)
+        
+        let sendChatRequest = SendChatRequest(
+            conversationID: message.conversationID,
+            content: message.content
+        )
+        
+        try await api.post("chat", body: sendChatRequest)
     }
     
     func getConversation(id: String) async throws -> [Message] {
