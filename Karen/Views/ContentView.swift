@@ -9,6 +9,8 @@ import SwiftUI
 
 
 struct ContentView: View {
+    @EnvironmentObject private var appState: AppState
+    
     @State private var searchText = ""
     var body: some View {
         NavigationStack {
@@ -36,9 +38,16 @@ struct ContentView: View {
                     }
                 }
                 NavigationLink {
+                    //TODO: Pass ChatService
                     ChatView()
                 } label: {
                     Label("Chat", systemImage: "message.fill")
+                        .foregroundStyle(.primary)
+                }
+                NavigationLink {
+                    PeopleView(peopleService: appState.peopleService)
+                } label: {
+                    Label("People", systemImage: "person.fill")
                         .foregroundStyle(.primary)
                 }
             }

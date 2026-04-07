@@ -6,12 +6,7 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		65BD35302F69D9080051BFF9 /* .swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BD352F2F69D9050051BFF9 /* .swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
-		65BD352F2F69D9050051BFF9 /* .swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swift; sourceTree = "<group>"; };
 		65BD35352F69DBAA0051BFF9 /* Karen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -51,7 +46,6 @@
 			isa = PBXGroup;
 			children = (
 				65BAB4972F550E2300A9449B /* Karen */,
-				65BD352F2F69D9050051BFF9 /* .swift */,
 				65BD35352F69DBAA0051BFF9 /* Karen.app */,
 			);
 			sourceTree = "<group>";
@@ -130,7 +124,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65BD35302F69D9080051BFF9 /* .swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
