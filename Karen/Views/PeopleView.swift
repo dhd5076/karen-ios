@@ -10,6 +10,7 @@ import Foundation
 
 struct PeopleView : View {
     @StateObject private var peopleViewModel: PeopleViewModel
+    @State private var showingCreatePerson = false
     
     init(peopleService: PeopleService) {
         _peopleViewModel = StateObject(
@@ -28,6 +29,17 @@ struct PeopleView : View {
                 Task {
                     await peopleViewModel.searchByName()
                 }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showingCreatePerson = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+            }.sheet(isPresented: $showingCreatePerson) {
+                CreatePersonView(peopleViewModel: peopleViewModel)
             }
         }
     }
