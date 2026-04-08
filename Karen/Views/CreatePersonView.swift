@@ -39,7 +39,16 @@ struct CreatePersonView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save") {
                         Task {
-                            //TODO: Implement Saving Person
+                            let person = Person(
+                                firstname: firstName,
+                                middlename: middleName,
+                                lastname: lastName
+                            )
+                            await peopleViewModel.create(person) //Should probably throw
+                            //TODO: Don't dimiss on error, show error
+                            dismiss()
+                            //TODO: Use returned Person model to update our own list instead of hitting db again
+                            await peopleViewModel.getAllPeople()
                         }
                     }
                 }

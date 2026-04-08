@@ -8,7 +8,7 @@
 import Foundation
 
 final class APIService {
-    private let baseURL = URL(string: "http://192.168.1.96:8080")!
+    private let baseURL = URL(string: "http://192.168.1.217:8080")!
     private let encoder: JSONEncoder = {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601

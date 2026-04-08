@@ -16,11 +16,16 @@ final class PeopleService {
     
     func create(_ person: Person) async throws {
         //TODO: Check if we should create a DTO for this??
-        try await api.post("person", body: person)
+        try await api.post("people", body: person)
+    }
+    
+    func getAll() async throws -> [Person] {
+        let person: [Person] = try await api.get("/people")
+        return person
     }
     
     func get(id: String) async throws -> Person {
-        let person: Person =  try await api.get("person/\(id)")
+        let person: Person =  try await api.get("people/\(id)")
         return person
     }
     
@@ -37,7 +42,7 @@ final class PeopleService {
                 throw URLError(.badURL)
         }
         
-        let people: [Person] = try await api.get("person/search?name=\(encodedQuery)")
+        let people: [Person] = try await api.get("people/search?name=\(encodedQuery)")
         return people
     }
 }

@@ -19,14 +19,25 @@ final class PeopleViewModel: ObservableObject {
     
     init(peopleService: PeopleService) {
         self.peopleService = peopleService
+        
+        Task {
+            await getAllPeople()
+        }
+    }
+    
+    func create(_ person: Person) async {
+        do {
+            try await peopleService.create(person)
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
     
     func searchByName() async {
         let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         
         guard !trimmed.isEmpty else {
-            people = []
-            errorMessage = nil
+            await getAllPeople()
             return
         }
         
@@ -37,6 +48,18 @@ final class PeopleViewModel: ObservableObject {
             people = try await peopleService.searchByName(query: trimmed)
         } catch {
             people = []
+            errorMessage = error.localizedDescription
+        }
+        
+        isLoading = false
+    }
+    
+    func getAllPeople() async {
+        isLoading = true
+        errorMessage = nil
+        do {
+            people = try await peopleService.getAll()
+        } catch {
             errorMessage = error.localizedDescription
         }
         
