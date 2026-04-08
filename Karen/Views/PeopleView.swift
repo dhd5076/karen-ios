@@ -21,6 +21,11 @@ struct PeopleView : View {
     var body: some View {
         NavigationStack {
             List(peopleViewModel.people, id: \.id) { person in
+                NavigationLink {
+                    PersonView(person: person)
+                } label: {
+                    Text(person.firstname + " " + person.lastname)
+                }
                 Text(person.firstname + " " + person.lastname)
             }
             .navigationTitle("People")

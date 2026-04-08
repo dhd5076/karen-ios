@@ -9,9 +9,9 @@ import Foundation
 
 struct Person: Codable {
     let id: UUID?
-    let firstname: String
-    let middlename: String
-    let lastname: String
+    var firstname: String
+    var middlename: String
+    var lastname: String
     
     init (
         id: UUID? = nil,
