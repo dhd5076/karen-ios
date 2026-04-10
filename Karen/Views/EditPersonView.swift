@@ -42,11 +42,22 @@ struct EditPersonView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save") {
                         Task {
-                            //TODO: Implement person update endpoint
+                            await peopleViewModel.update(person)
                         }
                     }
+                    .bold()
                 }
             }
         }
     }
+}
+
+#Preview {
+    EditPersonView(peopleViewModel: PeopleViewModel(
+        peopleService: PeopleService(api: APIService())
+    ), person: Person(
+        firstname: "John",
+        middlename: "Doe",
+        lastname: "Smith"
+    ))
 }

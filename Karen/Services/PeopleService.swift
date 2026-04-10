@@ -14,6 +14,16 @@ final class PeopleService {
         self.api = api
     }
     
+    func update(_ person: Person) async throws {
+        
+        guard let id = person.id else { //TODO: Check that this is proper
+            throw URLError(.badURL)
+        }
+        
+        //TODO: UUID has type UUID?, should probably reconcile this despite the check above
+        try await api.put("people/\(person.id!)", body: person)
+    }
+    
     func create(_ person: Person) async throws {
         //TODO: Check if we should create a DTO for this??
         try await api.post("people", body: person)
@@ -44,5 +54,9 @@ final class PeopleService {
         
         let people: [Person] = try await api.get("people/search?name=\(encodedQuery)")
         return people
+    }
+    
+    func delete(id: String) async throws {
+        try await api.delete("/people/\(id)")
     }
 }

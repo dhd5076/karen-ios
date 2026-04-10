@@ -15,6 +15,54 @@ final class APIService {
         return encoder
     }()
     
+    /*
+    private let decoder: JSONDecoder = {
+        let decoder = JSONDecoder()
+        decoder.dataDecodingStrategy = .
+        return decoder
+     } */
+    //TODO: Move decoder here instead of inside get, .iso8601??
+    
+    func put<T: Encodable>(_ path: String, body: T) async throws {
+        let url = baseURL.appendingPathComponent(path)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer SECRET", forHTTPHeaderField: "Authorization")
+        request.httpBody = try encoder.encode(body)
+        
+        let (_, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw URLError(.badServerResponse)
+        }
+        
+        guard 200..<300 ~= httpResponse.statusCode else {
+            throw URLError(.badServerResponse)
+        }
+    }
+    
+    func delete(_ path: String) async throws {
+        let url = baseURL.appendingPathComponent(path)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        //TODO: The following is repetitive, I should consider refactoring into helper function
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer SECRET", forHTTPHeaderField: "Authorization")
+        
+        let(_, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw URLError(.badServerResponse)
+        }
+        
+        guard 200..<300 ~= httpResponse.statusCode else {
+            throw URLError(.badServerResponse)
+        }
+    }
+    
     func post<T: Encodable>(_ path: String, body: T) async throws {
         let url = baseURL.appendingPathComponent(path)
 
@@ -53,6 +101,7 @@ final class APIService {
             throw URLError(.badServerResponse)
         }
         
+        //TODO: Move to shared decoder?
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         

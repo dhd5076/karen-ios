@@ -25,6 +25,14 @@ final class PeopleViewModel: ObservableObject {
         }
     }
     
+    func update(_ person: Person) async {
+        do {
+            try await peopleService.update(person)
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+    
     func create(_ person: Person) async {
         do {
             try await peopleService.create(person)
