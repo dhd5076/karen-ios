@@ -14,11 +14,13 @@ final class AppState: ObservableObject {
     let locationService: LocationService
     let chatService: ChatService
     let peopleService: PeopleService
+    let pantryService: PantryService
     
     init() {
         self.apiService = APIService()
         self.chatService = ChatService(api: self.apiService)
         self.locationService = LocationService(api: self.apiService)
         self.peopleService = PeopleService(api: self.apiService)
+        self.pantryService = PantryService(apiService: self.apiService)
     }
 }

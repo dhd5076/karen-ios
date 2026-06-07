@@ -7,13 +7,17 @@
 
 import Foundation
 
-final class APIService {
+final class APIClient {
     private let baseURL = URL(string: "http://192.168.1.217:8080")!
     private let encoder: JSONEncoder = {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
         return encoder
     }()
+    
+    //Make singleton
+    public static let shared = APIClient()
+    private init() {}
     
     /*
     private let decoder: JSONDecoder = {

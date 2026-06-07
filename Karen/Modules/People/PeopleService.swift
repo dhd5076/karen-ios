@@ -16,12 +16,12 @@ final class PeopleService {
     
     func update(_ person: Person) async throws {
         
-        guard let id = person.id else { //TODO: Check that this is proper
-            throw URLError(.badURL)
+        guard let id = person.id else {
+            throw URLError(.badURL) //TODO: Probably should use a different error type, works for now
         }
         
         //TODO: UUID has type UUID?, should probably reconcile this despite the check above
-        try await api.put("people/\(person.id!)", body: person)
+        try await api.put("people/\(id)", body: person)
     }
     
     func create(_ person: Person) async throws {

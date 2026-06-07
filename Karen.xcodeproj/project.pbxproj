@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		654FD2BC2FD5145200D32168 /* KarenShared in Frameworks */ = {isa = PBXBuildFile; productRef = 654FD2BB2FD5145200D32168 /* KarenShared */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		65BD35352F69DBAA0051BFF9 /* Karen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				654FD2BC2FD5145200D32168 /* KarenShared in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +75,7 @@
 			);
 			name = Karen;
 			packageProductDependencies = (
+				654FD2BB2FD5145200D32168 /* KarenShared */,
 			);
 			productName = Karen;
 			productReference = 65BD35352F69DBAA0051BFF9 /* Karen.app */;
@@ -99,6 +105,9 @@
 			);
 			mainGroup = 65BAB48C2F550E2300A9449B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				654FD2BA2FD5145200D32168 /* XCLocalSwiftPackageReference "../karen-lib" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 65BAB48C2F550E2300A9449B;
 			projectDirPath = "";
@@ -349,6 +358,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		654FD2BA2FD5145200D32168 /* XCLocalSwiftPackageReference "../karen-lib" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../karen-lib";
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		654FD2BB2FD5145200D32168 /* KarenShared */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = KarenShared;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 65BAB48D2F550E2300A9449B /* Project object */;
 }
