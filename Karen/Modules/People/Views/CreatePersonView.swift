@@ -60,9 +60,7 @@ struct CreatePersonView: View {
 #Preview {
     CreatePersonView(
         peopleViewModel: PeopleViewModel(
-            peopleService: PeopleService(
-                api: APIService()
-            )
+            peopleService: PeopleService()
         )
     )
 }

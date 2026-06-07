@@ -10,17 +10,15 @@ import Combine
 
 @MainActor
 final class AppState: ObservableObject {
-    let apiService: APIService
     let locationService: LocationService
     let chatService: ChatService
     let peopleService: PeopleService
     let pantryService: PantryService
     
     init() {
-        self.apiService = APIService()
-        self.chatService = ChatService(api: self.apiService)
-        self.locationService = LocationService(api: self.apiService)
-        self.peopleService = PeopleService(api: self.apiService)
-        self.pantryService = PantryService(apiService: self.apiService)
+        self.chatService = ChatService()
+        self.locationService = LocationService()
+        self.peopleService = PeopleService()
+        self.pantryService = PantryService()
     }
 }

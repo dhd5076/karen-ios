@@ -9,15 +9,12 @@ import Foundation
 import CoreLocation
 import Combine
 
-@MainActor
 final class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
-    private let api: APIService
+    private let apiClient: APIClient
     private let manager = CLLocationManager()
 
-    @Published var latestLocation: CLLocation?
-
-    init(api: APIService) {
-        self.api = api
+    init(apiClient: APIClient = .shared) {
+        self.apiClient = apiClient
         super.init()
         
         manager.delegate = self
@@ -46,7 +43,7 @@ final class LocationService: NSObject, ObservableObject, CLLocationManagerDelega
         )
         
         Task {
-            try? await api.post("location", body: payload)
+            try? await apiClient.post("location", body: payload)
         }
     }
 }

@@ -16,7 +16,7 @@ final class APIClient {
     }()
     
     //Make singleton
-    public static let shared = APIClient()
+    static let shared = APIClient()
     private init() {}
     
     /*

@@ -52,6 +52,6 @@ struct PeopleView : View {
 
 #Preview {
     PeopleView(
-        peopleService: PeopleService(api: APIService())
+        peopleService: PeopleService()
     )
 }

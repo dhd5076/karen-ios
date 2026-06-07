@@ -8,10 +8,10 @@
 import Foundation
 
 final class ChatService {
-    private let api: APIService
+    private let apiClient: APIClient
     
-    init(api: APIService) {
-        self.api = api
+    init(apiClient: APIClient = .shared) {
+        self.apiClient = apiClient
     }
     
     func sendMessage(_ message: Message) async throws {
@@ -21,12 +21,12 @@ final class ChatService {
             content: message.content
         )
         
-        try await api.post("chat", body: sendChatRequest)
+        try await apiClient.post("chat", body: sendChatRequest)
     }
     
     func getConversation(id: String) async throws -> [Message] {
         
-        let messages: [Message] = try await api.get("chat/\(id)")
+        let messages: [Message] = try await apiClient.get("chat/\(id)")
         
         return messages
     }

@@ -54,7 +54,7 @@ struct EditPersonView: View {
 
 #Preview {
     EditPersonView(peopleViewModel: PeopleViewModel(
-        peopleService: PeopleService(api: APIService())
+        peopleService: PeopleService()
     ), person: Person(
         firstname: "John",
         middlename: "Doe",
