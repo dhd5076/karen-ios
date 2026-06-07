@@ -15,11 +15,9 @@ final class PeopleViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
-    private let peopleService: PeopleService
+    private let peopleService = PeopleService.shared
     
-    init(peopleService: PeopleService) {
-        self.peopleService = peopleService
-        
+    init() {
         Task {
             await getAllPeople()
         }

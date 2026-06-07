@@ -11,7 +11,9 @@ import KarenShared
 final class PantryService {
     private let apiService: APIClient
     
-    init(apiService: APIClient = .shared) {
+    static let shared = PantryService()
+    
+    private init(apiService: APIClient = .shared) {
         self.apiService = apiService
     }
     

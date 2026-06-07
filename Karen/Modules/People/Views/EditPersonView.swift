@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct EditPersonView: View {
-    @ObservedObject var peopleViewModel: PeopleViewModel
+    let peopleViewModel = PeopleViewModel()
     @Environment(\.dismiss) private var dismiss
     
     @State private var person: Person
     
-    init(peopleViewModel: PeopleViewModel, person: Person) {
-        self.peopleViewModel = peopleViewModel
+    init(person: Person) {
         _person = State(initialValue: person)
     }
     
@@ -53,11 +52,11 @@ struct EditPersonView: View {
 }
 
 #Preview {
-    EditPersonView(peopleViewModel: PeopleViewModel(
-        peopleService: PeopleService()
-    ), person: Person(
-        firstname: "John",
-        middlename: "Doe",
-        lastname: "Smith"
-    ))
+    EditPersonView(
+        person: Person(
+            firstname: "John",
+            middlename: "Doe",
+            lastname: "Smith"
+        )
+    )
 }

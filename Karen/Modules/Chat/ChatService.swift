@@ -10,7 +10,9 @@ import Foundation
 final class ChatService {
     private let apiClient: APIClient
     
-    init(apiClient: APIClient = .shared) {
+    static let shared = ChatService()
+    
+    private init(apiClient: APIClient = .shared) {
         self.apiClient = apiClient
     }
     

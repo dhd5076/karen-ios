@@ -9,7 +9,6 @@ import SwiftUI
 
 
 struct ContentView: View {
-    @EnvironmentObject private var appState: AppState
     
     @State private var searchText = ""
     var body: some View {
@@ -45,7 +44,7 @@ struct ContentView: View {
                         .foregroundStyle(.primary)
                 }
                 NavigationLink {
-                    PeopleView(peopleService: appState.peopleService)
+                    PeopleView()
                 } label: {
                     Label("People", systemImage: "person.fill")
                         .foregroundStyle(.primary)

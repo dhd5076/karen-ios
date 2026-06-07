@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CreatePersonView: View {
-    @ObservedObject var peopleViewModel: PeopleViewModel
+    @ObservedObject var peopleViewModel = PeopleViewModel()
     @Environment(\.dismiss) private var dismiss
     
     @State private var firstName = ""
@@ -58,9 +58,5 @@ struct CreatePersonView: View {
 }
 
 #Preview {
-    CreatePersonView(
-        peopleViewModel: PeopleViewModel(
-            peopleService: PeopleService()
-        )
-    )
+    CreatePersonView()
 }

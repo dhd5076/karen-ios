@@ -12,8 +12,10 @@ import Combine
 final class LocationService: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let apiClient: APIClient
     private let manager = CLLocationManager()
+    
+    static let shared = LocationService()
 
-    init(apiClient: APIClient = .shared) {
+    private init(apiClient: APIClient = .shared) {
         self.apiClient = apiClient
         super.init()
         

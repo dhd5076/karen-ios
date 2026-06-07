@@ -9,14 +9,8 @@ import SwiftUI
 import Foundation
 
 struct PeopleView : View {
-    @StateObject private var peopleViewModel: PeopleViewModel
+    @StateObject private var peopleViewModel = PeopleViewModel()
     @State private var showingCreatePerson = false
-    
-    init(peopleService: PeopleService) {
-        _peopleViewModel = StateObject(
-            wrappedValue: PeopleViewModel(peopleService: peopleService)
-        )
-    }
     
     var body: some View {
         NavigationStack {
@@ -51,7 +45,5 @@ struct PeopleView : View {
 }
 
 #Preview {
-    PeopleView(
-        peopleService: PeopleService()
-    )
+    PeopleView()
 }

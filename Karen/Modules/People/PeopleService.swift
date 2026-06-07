@@ -8,11 +8,10 @@
 import Foundation
 
 final class PeopleService {
-    private let apiClient: APIClient
+    private let apiClient = APIClient.shared
     
-    init(apiClient: APIClient = .shared) {
-        self.apiClient = apiClient
-    }
+    static let shared = PeopleService()
+    
     
     func update(_ person: Person) async throws {
         
