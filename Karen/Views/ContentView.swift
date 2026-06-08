@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ContentView: View {
     
+    private let iconColor: HierarchicalShapeStyle = .primary
+    
     @State private var searchText = ""
     var body: some View {
         NavigationStack {
@@ -41,13 +43,19 @@ struct ContentView: View {
                     ChatView()
                 } label: {
                     Label("Chat", systemImage: "message.fill")
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(iconColor)
                 }
                 NavigationLink {
                     PeopleView()
                 } label: {
                     Label("People", systemImage: "person.fill")
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(iconColor)
+                }
+                NavigationLink {
+                    PantryView()
+                } label: {
+                    Label("Pantry", systemImage: "shippingbox.fill")
+                        .foregroundStyle(iconColor)
                 }
             }
             .navigationTitle("Karen")

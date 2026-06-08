@@ -8,8 +8,9 @@
 import SwiftUI
 import KarenShared
 
-struct PantryListView: View {
+struct PantryView: View {
     @StateObject private var pantryViewModel = PantryViewModel()
+    @State private var showingCreatePantry = false
     
     var body: some View {
         NavigationStack {
@@ -35,11 +36,23 @@ struct PantryListView: View {
         }
         .navigationTitle("Pantries")
         .task {
-           await pantryViewModel.loadPantries()
+            await pantryViewModel.loadPantries()
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showingCreatePantry = true
+                } label: {
+                    Label("Create Pantry", systemImage: "plus")
+                }
+            }
+        }
+        .sheet(isPresented: $showingCreatePantry) {
+            //CreatePantryView()
         }
     }
 }
 
 #Preview {
-    PantryListView()
+    PantryView()
 }
