@@ -9,25 +9,23 @@ import Foundation
 
 final class APIClient {
     private let baseURL = URL(string: "http://192.168.1.217:8080")!
-    private let encoder: JSONEncoder = {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
-        return encoder
-    }()
+
+    private let encoder: JSONEncoder
+    private let decoder: JSONDecoder
     
     //Make singleton
     static let shared = APIClient()
-    private init() {}
+    private init() {
+        
+        encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        
+        decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+    }
     
-    /*
-    private let decoder: JSONDecoder = {
-        let decoder = JSONDecoder()
-        decoder.dataDecodingStrategy = .
-        return decoder
-     } */
-    //TODO: Move decoder here instead of inside get, .iso8601??
     
-    func put<T: Encodable>(_ path: String, body: T) async throws {
+    func put<Body: Encodable, Response: Decodable>(_ path: String, body: Body) async throws -> Response {
         let url = baseURL.appendingPathComponent(path)
         
         var request = URLRequest(url: url)
@@ -36,7 +34,7 @@ final class APIClient {
         request.setValue("Bearer SECRET", forHTTPHeaderField: "Authorization")
         request.httpBody = try encoder.encode(body)
         
-        let (_, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await URLSession.shared.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse else {
             throw URLError(.badServerResponse)
@@ -45,9 +43,11 @@ final class APIClient {
         guard 200..<300 ~= httpResponse.statusCode else {
             throw URLError(.badServerResponse)
         }
+        
+        return try decoder.decode(Response.self, from: data)
     }
     
-    func delete(_ path: String) async throws {
+    func delete<Response: Decodable>(_ path: String) async throws -> Response {
         let url = baseURL.appendingPathComponent(path)
         
         var request = URLRequest(url: url)
@@ -56,7 +56,7 @@ final class APIClient {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer SECRET", forHTTPHeaderField: "Authorization")
         
-        let(_, response) = try await URLSession.shared.data(for: request)
+        let(data, response) = try await URLSession.shared.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse else {
             throw URLError(.badServerResponse)
@@ -65,9 +65,11 @@ final class APIClient {
         guard 200..<300 ~= httpResponse.statusCode else {
             throw URLError(.badServerResponse)
         }
+        
+        return try decoder.decode(Response.self, from: data)
     }
     
-    func post<T: Encodable>(_ path: String, body: T) async throws {
+    func post<Body: Encodable, Response: Decodable>(_ path: String, body: Body) async throws -> Response {
         let url = baseURL.appendingPathComponent(path)
 
         var request = URLRequest(url: url)
@@ -76,7 +78,7 @@ final class APIClient {
         request.setValue("Bearer SECRET", forHTTPHeaderField: "Authorization")
         request.httpBody = try encoder.encode(body)
 
-        let (_, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await URLSession.shared.data(for: request)
 
         guard let httpResponse = response as? HTTPURLResponse else {
             throw URLError(.badServerResponse)
@@ -85,9 +87,12 @@ final class APIClient {
         guard 200..<300 ~= httpResponse.statusCode else {
             throw URLError(.badServerResponse)
         }
+        
+        
+        return try decoder.decode(Response.self, from: data)
     }
     
-    func get<T: Decodable>(_ path: String) async throws -> T {
+    func get<Response: Decodable>(_ path: String) async throws -> Response {
         let url = baseURL.appendingPathComponent(path)
         
         var request = URLRequest(url: url)
@@ -110,6 +115,6 @@ final class APIClient {
         decoder.dateDecodingStrategy = .iso8601
         
         
-        return try decoder.decode(T.self, from: data)
+        return try decoder.decode(Response.self, from: data)
     }
 }

@@ -16,14 +16,14 @@ final class ChatService {
         self.apiClient = apiClient
     }
     
-    func sendMessage(_ message: Message) async throws {
+    func sendMessage(_ message: Message) async throws -> Message {
         
         let sendChatRequest = SendChatRequest(
             conversationID: message.conversationID,
             content: message.content
         )
         
-        try await apiClient.post("chat", body: sendChatRequest)
+        return try await apiClient.post("chat", body: sendChatRequest)
     }
     
     func getConversation(id: String) async throws -> [Message] {

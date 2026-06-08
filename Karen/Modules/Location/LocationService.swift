@@ -45,7 +45,7 @@ final class LocationService: NSObject, ObservableObject, CLLocationManagerDelega
         )
         
         Task {
-            try? await apiClient.post("location", body: payload)
+            let _ : Location = try await apiClient.post("location", body: payload)
         }
     }
 }

@@ -13,19 +13,19 @@ final class PeopleService {
     static let shared = PeopleService()
     
     
-    func update(_ person: Person) async throws {
+    func update(_ person: Person) async throws -> Person {
         
         guard let id = person.id else {
             throw URLError(.badURL) //TODO: Probably should use a different error type, works for now
         }
         
         //TODO: UUID has type UUID?, should probably reconcile this despite the check above
-        try await apiClient.put("people/\(id)", body: person)
+        return try await apiClient.put("people/\(id)", body: person)
     }
     
-    func create(_ person: Person) async throws {
+    func create(_ person: Person) async throws -> Person {
         //TODO: Check if we should create a DTO for this??
-        try await apiClient.post("people", body: person)
+        return try await apiClient.post("people", body: person)
     }
     
     func getAll() async throws -> [Person] {
@@ -55,7 +55,7 @@ final class PeopleService {
         return people
     }
     
-    func delete(id: String) async throws {
+    func delete(id: String) async throws -> Person {
         try await apiClient.delete("/people/\(id)")
     }
 }
