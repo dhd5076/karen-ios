@@ -17,6 +17,15 @@ final class PantryViewModel: ObservableObject {
     
     private let pantryService = PantryService.shared
     
+    public func createPantry(_ pantry: Pantry) async {
+        do {
+            let createdPantry = try await pantryService.createPantry(pantry: pantry)
+            pantries.append(createdPantry)
+        } catch {
+            print(error.localizedDescription)
+            errorMessage = error.localizedDescription
+        }
+    }
     
     func loadPantries() async {
         isLoading = true
@@ -24,9 +33,17 @@ final class PantryViewModel: ObservableObject {
         do {
             pantries = try await pantryService.getPantries()
         } catch {
-            errorMessage = error.localizedDescription
+            print(error.localizedDescription)
         }
         
         isLoading = false
+    }
+    
+    public func updatePantry() async {
+        
+    }
+    
+    public func deletePantry() async {
+        
     }
 }

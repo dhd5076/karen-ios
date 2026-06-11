@@ -20,7 +20,7 @@ struct PantryView: View {
                 } else if pantryViewModel.pantries.isEmpty {
                     ContentUnavailableView(
                         "No Pantries",
-                        image: "shippingbox",
+                        systemImage: "shippingbox",
                         description: Text("Create a pantry to get started")
                     )
                 } else {
@@ -48,11 +48,15 @@ struct PantryView: View {
             }
         }
         .sheet(isPresented: $showingCreatePantry) {
-            //CreatePantryView()
+            CreatePantryView(onCreate: createPantry)
         }
+    }
+    
+    private func createPantry(pantry: Pantry) async{
+        await pantryViewModel.createPantry(pantry)
     }
 }
 
 #Preview {
-    PantryView()
+        ContentView()
 }

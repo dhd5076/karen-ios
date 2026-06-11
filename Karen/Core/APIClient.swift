@@ -23,7 +23,7 @@ final class APIClient {
         decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
     }
-    
+    //TODO: Organize in order of CRUD, functions
     
     func put<Body: Encodable, Response: Decodable>(_ path: String, body: Body) async throws -> Response {
         let url = baseURL.appendingPathComponent(path)
@@ -85,6 +85,7 @@ final class APIClient {
         }
 
         guard 200..<300 ~= httpResponse.statusCode else {
+            //print("POST \(path) failed with status \(httpResponse.statusCode): \(String(data: data, encoding: .utf8) ?? "")") //TODO: Needs better error handling in this function
             throw URLError(.badServerResponse)
         }
         
