@@ -47,7 +47,7 @@ final class APIClient {
         return try decoder.decode(Response.self, from: data)
     }
     
-    func delete<Response: Decodable>(_ path: String) async throws -> Response {
+    func delete(_ path: String) async throws {
         let url = baseURL.appendingPathComponent(path)
         
         var request = URLRequest(url: url)
@@ -65,8 +65,6 @@ final class APIClient {
         guard 200..<300 ~= httpResponse.statusCode else {
             throw URLError(.badServerResponse)
         }
-        
-        return try decoder.decode(Response.self, from: data)
     }
     
     func post<Body: Encodable, Response: Decodable>(_ path: String, body: Body) async throws -> Response {

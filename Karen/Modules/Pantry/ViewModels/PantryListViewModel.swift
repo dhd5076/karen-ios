@@ -10,7 +10,7 @@ import Combine
 import KarenShared
 
 @MainActor
-final class PantryViewModel: ObservableObject {
+final class PantryListViewModel: ObservableObject {
     @Published private(set) var pantries: [Pantry] = []
     @Published private(set) var isLoading: Bool = false
     @Published var errorMessage: String?
@@ -43,7 +43,13 @@ final class PantryViewModel: ObservableObject {
         
     }
     
-    public func deletePantry() async {
-        
+    public func deletePantry(id: UUID) async {
+        do {
+            try await pantryService.deletePantry(id: id)
+            await loadPantries()
+        } catch {
+            print(error.localizedDescription)
+            errorMessage = error.localizedDescription
+        }
     }
 }

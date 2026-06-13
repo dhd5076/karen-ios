@@ -44,4 +44,8 @@ final class PantryService {
         return updatedPantry
         
     }
+    
+    func deletePantry(id: UUID) async throws {
+        try await apiService.delete(path + "/\(id.uuidString)")
+    }
 }

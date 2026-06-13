@@ -55,7 +55,7 @@ final class PeopleService {
         return people
     }
     
-    func delete(id: String) async throws -> Person {
-        try await apiClient.delete("/people/\(id)")
-    }
+    /* func delete(id: String) async throws -> Person {
+        //TODO Fix try await apiClient.delete("/people/\(id)")
+    } */
 }

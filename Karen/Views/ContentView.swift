@@ -52,7 +52,7 @@ struct ContentView: View {
                         .foregroundStyle(iconColor)
                 }
                 NavigationLink {
-                    PantryView()
+                    PantryListView()
                 } label: {
                     Label("Pantry", systemImage: "shippingbox.fill")
                         .foregroundStyle(iconColor)

@@ -8,35 +8,49 @@
 import SwiftUI
 import KarenShared
 
-struct PantryView: View {
-    @StateObject private var pantryViewModel = PantryViewModel()
+struct PantryListView: View {
+    @StateObject private var pantryListViewModel = PantryListViewModel()
     @State private var showingCreatePantry = false
     
     var body: some View {
         NavigationStack {
             Group {
-                if pantryViewModel.isLoading {
+                if pantryListViewModel.isLoading {
                     ProgressView("Loading Pantries...")
-                } else if pantryViewModel.pantries.isEmpty {
+                } else if pantryListViewModel.pantries.isEmpty {
                     ContentUnavailableView(
                         "No Pantries",
                         systemImage: "shippingbox",
                         description: Text("Create a pantry to get started")
                     )
                 } else {
-                    List(pantryViewModel.pantries, id: \.id) { pantry in
-                        Text(pantry.name)
+                    List(pantryListViewModel.pantries, id: \.id) { pantry in
+                        NavigationLink {
+                            ViewPantryView(pantryID: pantry.id!) //TODO: This is a forced unwrap, double check
+                        } label: {
+                            Text(pantry.name)
+                        }
+                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                            Button(role: .destructive) {
+                                Task {
+                                    if let pantryId = pantry.id {
+                                        await pantryListViewModel.deletePantry(id: pantryId)
+                                    }
+                                }
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                        }
                     }
-                    
                     .refreshable {
-                        await pantryViewModel.loadPantries()
+                        await pantryListViewModel.loadPantries()
                     }
                 }
             }
         }
         .navigationTitle("Pantries")
         .task {
-            await pantryViewModel.loadPantries()
+            await pantryListViewModel.loadPantries()
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -53,7 +67,7 @@ struct PantryView: View {
     }
     
     private func createPantry(pantry: Pantry) async{
-        await pantryViewModel.createPantry(pantry)
+        await pantryListViewModel.createPantry(pantry)
     }
 }
 
