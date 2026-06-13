@@ -10,7 +10,7 @@ import Combine
 import KarenShared
 
 @MainActor
-final class ViewPantryViewModel: ObservableObject {
+final class PantryViewModel: ObservableObject {
     let pantryID: UUID
     
     @Published var pantry: Pantry?

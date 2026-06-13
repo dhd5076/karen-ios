@@ -20,13 +20,13 @@ struct PantryListView: View {
                 } else if pantryListViewModel.pantries.isEmpty {
                     ContentUnavailableView(
                         "No Pantries",
-                        systemImage: "shippingbox",
+                        systemImage: Pantry.icon,
                         description: Text("Create a pantry to get started")
                     )
                 } else {
                     List(pantryListViewModel.pantries, id: \.id) { pantry in
                         NavigationLink {
-                            ViewPantryView(pantryID: pantry.id!) //TODO: This is a forced unwrap, double check
+                            PantryView(pantryID: pantry.id!) //TODO: This is a forced unwrap, double check
                         } label: {
                             Text(pantry.name)
                         }
@@ -54,10 +54,20 @@ struct PantryListView: View {
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    showingCreatePantry = true
+                Menu {
+                    Button {
+                        showingCreatePantry = true
+                    } label: {
+                        Label("Create Pantry", systemImage: "plus")
+                    }
+                    
+                    NavigationLink {
+                        Text("asdasd")
+                    } label: {
+                        Label("Manage Products", systemImage: "tag")
+                    }
                 } label: {
-                    Label("Create Pantry", systemImage: "plus")
+                    Image(systemName: "ellipsis.circle")
                 }
             }
         }

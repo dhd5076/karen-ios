@@ -16,7 +16,7 @@ final class PantryService {
     
     private init(apiService: APIClient = .shared) {
         self.apiService = apiService
-        path = PantryModule.path(Pantry.baseRoute)
+        path = PantryModule.path(Pantry.baseRoute) //TODO: Revisit this pattern later
         print(path)
     }
     
@@ -47,5 +47,21 @@ final class PantryService {
     
     func deletePantry(id: UUID) async throws {
         try await apiService.delete(path + "/\(id.uuidString)")
+    }
+    
+    private var productsPath: String {
+        PantryModule.path(PantryProduct.baseRoute) //TODO: revisit this later and figure out if this is the pattern I want to keep
+    }
+
+    func getProducts() async throws -> [PantryProduct] {
+        try await apiService.get(productsPath)
+    }
+
+    func createProduct(_ product: PantryProduct) async throws -> PantryProduct {
+        try await apiService.post(productsPath, body: product)
+    }
+
+    func deleteProduct(id: UUID) async throws {
+        try await apiService.delete(productsPath + "/\(id.uuidString)")
     }
 }

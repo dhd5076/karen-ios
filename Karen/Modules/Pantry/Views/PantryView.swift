@@ -8,31 +8,31 @@ import KarenShared
 import Foundation
 import SwiftUI
 
-struct ViewPantryView: View {
+struct PantryView: View {
     
-    @StateObject private var viewPantryViewModel: ViewPantryViewModel
+    @StateObject private var pantryViewModel: PantryViewModel
     
     init(pantryID: UUID) {
-        _viewPantryViewModel = StateObject(
-            wrappedValue: ViewPantryViewModel(pantryID: pantryID)
+        _pantryViewModel = StateObject(
+            wrappedValue: PantryViewModel(pantryID: pantryID)
         )
     }
     
     var body: some View {
         VStack(alignment: .leading) {
-            if viewPantryViewModel.isLoading {
+            if pantryViewModel.isLoading {
                 ProgressView()
-            } else if let pantry = viewPantryViewModel.pantry {
+            } else if let pantry = pantryViewModel.pantry {
                 Text(pantry.name)
                     .font(.title)
-            } else if let errorMessage = viewPantryViewModel.errorMessage {
+            } else if let errorMessage = pantryViewModel.errorMessage {
                 Text(errorMessage)
                     .foregroundStyle(.red) //TODO: Make a reusable ErrorView: View
             }
         }
         .padding()
         .task {
-            await viewPantryViewModel.loadPantry()
+            await pantryViewModel.loadPantry()
         }
     }
 }

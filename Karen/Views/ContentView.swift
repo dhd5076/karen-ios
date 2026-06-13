@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import KarenShared
 
 
 struct ContentView: View {
@@ -54,7 +55,7 @@ struct ContentView: View {
                 NavigationLink {
                     PantryListView()
                 } label: {
-                    Label("Pantry", systemImage: "shippingbox.fill")
+                    Label(PantryModule.displayName, systemImage: PantryModule.icon)
                         .foregroundStyle(iconColor)
                 }
             }
