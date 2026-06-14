@@ -11,6 +11,7 @@ import SwiftUI
 struct PantryView: View {
     @StateObject private var viewModel: PantryViewModel
     @State private var showingAddToPantry = false
+    @State private var batchToConsume: PantryBatch?
 
     init(pantryID: UUID) {
         _viewModel = StateObject(
@@ -37,28 +38,25 @@ struct PantryView: View {
                             )
                         } else {
                             ForEach(viewModel.batches, id: \.id) { batch in
-                                VStack(alignment: .leading) {
-                                    Text(viewModel.productName(for: batch.product))
-                                        .font(.headline)
-                                    
-                                    Text("\(batch.quantity.formatted()) from \(batch.source)")
-                                        .font(.subheadline)
-                                        .foregroundStyle(.secondary)
-                                    
-                                    Text(batch.acquiredAt.formatted(date: .abbreviated, time: .omitted))
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                }
-                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                    Button(role: .destructive) {
-                                        Task {
-                                            if let batchId = batch.id {
-                                                //TODO: This is possibly an issue, we may never want to delete batches 
-                                                await viewModel.deleteBatch(id: batchId)
-                                            }
+                                if let product = viewModel.product(for: batch.product) {
+                                    BatchRowView(batch: batch, product: product)
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                        Button {
+                                            batchToConsume = batch
+                                        } label: {
+                                            Label("Consume", systemImage: "minus.circle")
                                         }
-                                    } label: {
-                                        Label("Delete", systemImage: "trash")
+
+                                        Button(role: .destructive) {
+                                            Task {
+                                                if let batchId = batch.id {
+                                                    //TODO: This is possibly an issue, we may never want to delete batches
+                                                    await viewModel.deleteBatch(id: batchId)
+                                                }
+                                            }
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
                                     }
                                 }
                             }
@@ -92,6 +90,42 @@ struct PantryView: View {
                     await viewModel.loadPantry()
                 }
             )
+        }
+        .sheet(item: $batchToConsume) { batch in
+            if let product = viewModel.product(for: batch.product),
+               let batchId = batch.id {
+                ConsumePantryBatchView(
+                    batch: batch,
+                    product: product,
+                    onConsume: { quantity, note in
+                        await viewModel.consumeBatch(
+                            id: batchId,
+                            quantity: quantity,
+                            note: note
+                        )
+                    }
+                )
+            }
+        }
+    }
+}
+
+public struct BatchRowView: View {
+    var batch: PantryBatch
+    var product: PantryProduct
+    
+    public var body: some View {
+        VStack(alignment: .leading) {
+            Text(product.name)
+                .font(.headline)
+            
+            Text("\(batch.quantity.formatted()) \(product.unit) from \(batch.source)")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            
+            Text(batch.acquiredAt.formatted(date: .abbreviated, time: .omitted))
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 }

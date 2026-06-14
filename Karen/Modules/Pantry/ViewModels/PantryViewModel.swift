@@ -39,13 +39,32 @@ final class PantryViewModel: ObservableObject {
         isLoading = false
     }
     
-    func productName(for productID: UUID) -> String {
-        products.first { $0.id == productID }?.name ?? productID.uuidString
+    func product(for productID: UUID) -> PantryProduct? {
+        products.first { $0.id == productID }
     }
     
     public func deleteBatch(id: UUID) async {
         do {
             try await PantryService.shared.deleteBatch(id: id)
+            batches.removeAll { $0.id == id }
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    public func consumeBatch(id: UUID, quantity: Double, note: String?) async {
+        let request = ConsumePantryBatchRequest(quantity: quantity, note: note)
+
+        do {
+            let updatedBatch = try await PantryService.shared.consumeBatch(id: id, request: request)
+
+            if updatedBatch.quantity <= 0 {
+                batches.removeAll { $0.id == id }
+            } else if let index = batches.firstIndex(where: { $0.id == id }) {
+                batches[index] = updatedBatch
+            } else {
+                await loadPantry()
+            }
         } catch {
             errorMessage = error.localizedDescription
         }

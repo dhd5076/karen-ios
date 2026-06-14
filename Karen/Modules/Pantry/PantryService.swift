@@ -77,4 +77,11 @@ final class PantryService {
     func deleteBatch(id: UUID) async throws {
         try await apiService.delete(PantryModule.path(PantryBatch.baseRoute) + "/\(id.uuidString)")
     }
+
+    func consumeBatch(id: UUID, request: ConsumePantryBatchRequest) async throws -> PantryBatch {
+        try await apiService.post(
+            PantryModule.path(PantryBatch.baseRoute) + "/\(id.uuidString)/consume",
+            body: request
+        )
+    }
 }
