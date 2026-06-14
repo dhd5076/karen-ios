@@ -64,4 +64,17 @@ final class PantryService {
     func deleteProduct(id: UUID) async throws {
         try await apiService.delete(productsPath + "/\(id.uuidString)")
     }
+    
+    func addBatchToPantry(pantryId: UUID, request: AddBatchToPantryRequest) async throws -> PantryBatch {
+        let createdPantryBatch: PantryBatch = try await apiService.post(path + "/\(pantryId.uuidString)/add", body: request)
+        return createdPantryBatch
+    }
+    
+    func getBatchesForPantry(pantryId: UUID) async throws -> [PantryBatch] {
+        try await apiService.get(path + "/\(pantryId.uuidString)/batches")
+    }
+
+    func deleteBatch(id: UUID) async throws {
+        try await apiService.delete(PantryModule.path(PantryBatch.baseRoute) + "/\(id.uuidString)")
+    }
 }
