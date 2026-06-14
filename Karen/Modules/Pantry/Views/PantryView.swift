@@ -49,11 +49,12 @@ struct PantryView: View {
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
                                 }
-                                .swipeActions(edge: .trailing, .allowsFullSwipe: false) {
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     Button(role: .destructive) {
                                         Task {
                                             if let batchId = batch.id {
-                                                await viewModel.deleteBatch(id: id)
+                                                //TODO: This is possibly an issue, we may never want to delete batches 
+                                                await viewModel.deleteBatch(id: batchId)
                                             }
                                         }
                                     } label: {
