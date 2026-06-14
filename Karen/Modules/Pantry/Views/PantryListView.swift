@@ -9,22 +9,22 @@ import SwiftUI
 import KarenShared
 
 struct PantryListView: View {
-    @StateObject private var pantryListViewModel = PantryListViewModel()
+    @StateObject private var viewModel = PantryListViewModel()
     @State private var showingCreatePantry = false
     
     var body: some View {
         NavigationStack {
             Group {
-                if pantryListViewModel.isLoading {
+                if viewModel.isLoading {
                     ProgressView("Loading Pantries...")
-                } else if pantryListViewModel.pantries.isEmpty {
+                } else if viewModel.pantries.isEmpty {
                     ContentUnavailableView(
                         "No Pantries",
                         systemImage: Pantry.icon,
                         description: Text("Create a pantry to get started")
                     )
                 } else {
-                    List(pantryListViewModel.pantries, id: \.id) { pantry in
+                    List(viewModel.pantries, id: \.id) { pantry in
                         NavigationLink {
                             PantryView(pantryID: pantry.id!) //TODO: This is a forced unwrap, double check
                         } label: {
@@ -34,7 +34,7 @@ struct PantryListView: View {
                             Button(role: .destructive) {
                                 Task {
                                     if let pantryId = pantry.id {
-                                        await pantryListViewModel.deletePantry(id: pantryId)
+                                        await viewModel.deletePantry(id: pantryId)
                                     }
                                 }
                             } label: {
@@ -43,14 +43,14 @@ struct PantryListView: View {
                         }
                     }
                     .refreshable {
-                        await pantryListViewModel.loadPantries()
+                        await viewModel.loadPantries()
                     }
                 }
             }
         }
         .navigationTitle("Pantries")
         .task {
-            await pantryListViewModel.loadPantries()
+            await viewModel.loadPantries()
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -62,7 +62,7 @@ struct PantryListView: View {
                     }
                     
                     NavigationLink {
-                        Text("asdasd")
+                        PantryProductListView()
                     } label: {
                         Label("Manage Products", systemImage: "tag")
                     }
@@ -77,7 +77,7 @@ struct PantryListView: View {
     }
     
     private func createPantry(pantry: Pantry) async{
-        await pantryListViewModel.createPantry(pantry)
+        await viewModel.createPantry(pantry)
     }
 }
 

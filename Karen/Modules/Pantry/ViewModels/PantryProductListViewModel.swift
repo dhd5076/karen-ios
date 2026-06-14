@@ -15,6 +15,9 @@ final class PantryProductListViewModel: ObservableObject {
     @Published private(set) var isLoading: Bool = false
     @Published var errorMessage: String?
     
+    
+    @Published var searchText = "" //TODO: we may eventually defer to backend for this
+    
     private let pantryService = PantryService.shared
     
     func loadProducts() async {
@@ -41,10 +44,22 @@ final class PantryProductListViewModel: ObservableObject {
     
     func deleteProduct(id: UUID) async {
         do {
-            try await pantryService.deletePantry(id: id)
+            try await pantryService.deleteProduct(id: id)
             await loadProducts()
         } catch {
             errorMessage = error.localizedDescription
+        }
+    }
+    
+    var filteredProducts: [PantryProduct] {
+        let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        guard !trimmed.isEmpty else {
+            return products
+        }
+        
+        return products.filter {
+            $0.name.localizedCaseInsensitiveContains(trimmed)
         }
     }
 }
