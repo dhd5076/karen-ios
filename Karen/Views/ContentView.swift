@@ -58,6 +58,12 @@ struct ContentView: View {
                     Label(PantryModule.displayName, systemImage: PantryModule.icon)
                         .foregroundStyle(iconColor)
                 }
+                NavigationLink {
+                    Text("Tasks go here")
+                } label: {
+                    Label(TaskModule.displayName, systemImage: TaskModule.icon)
+                        .foregroundStyle(iconColor)
+                }
             }
             .navigationTitle("Karen")
             .searchable(text: $searchText, prompt: "Search")
