@@ -59,7 +59,7 @@ struct ContentView: View {
                         .foregroundStyle(iconColor)
                 }
                 NavigationLink {
-                    Text("Tasks go here")
+                    TaskListView()
                 } label: {
                     Label(TaskModule.displayName, systemImage: TaskModule.icon)
                         .foregroundStyle(iconColor)
