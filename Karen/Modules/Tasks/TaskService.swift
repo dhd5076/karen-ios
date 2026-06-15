@@ -37,4 +37,13 @@ final class TaskService {
     func deleteTask(id: UUID) async throws {
         try await apiClient.delete(path + "/\(id.uuidString)")
     }
+
+    func toggleComplete(id: UUID) async throws {
+        try await apiClient.post(
+            path + "/\(id.uuidString)/toggle-complete",
+            body: EmptyRequest()
+        )
+    }
 }
+
+private struct EmptyRequest: Encodable {}

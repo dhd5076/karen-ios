@@ -31,7 +31,7 @@ struct TaskListView: View {
                                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                         Button {
                                             Task {
-                                                await viewModel.completeTask(task)
+                                                await viewModel.toggleComplete(task)
                                             }
                                         } label: {
                                             Label("Complete", systemImage: "checkmark.circle")
@@ -51,7 +51,7 @@ struct TaskListView: View {
                                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                         Button {
                                             Task {
-                                                await viewModel.reopenTask(task)
+                                                await viewModel.toggleComplete(task)
                                             }
                                         } label: {
                                             Label("Reopen", systemImage: "arrow.uturn.backward.circle")

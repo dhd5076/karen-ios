@@ -90,6 +90,26 @@ final class APIClient {
         
         return try decoder.decode(Response.self, from: data)
     }
+
+    func post<Body: Encodable>(_ path: String, body: Body) async throws {
+        let url = baseURL.appendingPathComponent(path)
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer SECRET", forHTTPHeaderField: "Authorization")
+        request.httpBody = try encoder.encode(body)
+
+        let (_, response) = try await URLSession.shared.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw URLError(.badServerResponse)
+        }
+
+        guard 200..<300 ~= httpResponse.statusCode else {
+            throw URLError(.badServerResponse)
+        }
+    }
     
     func get<Response: Decodable>(_ path: String) async throws -> Response {
         let url = baseURL.appendingPathComponent(path)

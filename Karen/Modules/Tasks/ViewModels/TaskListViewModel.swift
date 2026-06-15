@@ -86,53 +86,14 @@ final class TaskListViewModel: ObservableObject {
         }
     }
 
-    func completeTask(_ task: KTask) async {
+    func toggleComplete(_ task: KTask) async {
         guard let id = task.id else {
             return
         }
 
-        let updatedTask = KTask(
-            id: id,
-            title: task.title,
-            notes: task.notes,
-            dueAt: task.dueAt,
-            isCompleted: true,
-            completedAt: Date(),
-            source: task.source
-        )
-
         do {
-            let savedTask = try await taskService.updateTask(updatedTask)
-
-            if let index = tasks.firstIndex(where: { $0.id == id }) {
-                tasks[index] = savedTask
-            }
-        } catch {
-            errorMessage = error.localizedDescription
-        }
-    }
-
-    func reopenTask(_ task: KTask) async {
-        guard let id = task.id else {
-            return
-        }
-
-        let updatedTask = KTask(
-            id: id,
-            title: task.title,
-            notes: task.notes,
-            dueAt: task.dueAt,
-            isCompleted: false,
-            completedAt: nil,
-            source: task.source
-        )
-
-        do {
-            let savedTask = try await taskService.updateTask(updatedTask)
-
-            if let index = tasks.firstIndex(where: { $0.id == id }) {
-                tasks[index] = savedTask
-            }
+            try await taskService.toggleComplete(id: id)
+            await loadTasks()
         } catch {
             errorMessage = error.localizedDescription
         }
