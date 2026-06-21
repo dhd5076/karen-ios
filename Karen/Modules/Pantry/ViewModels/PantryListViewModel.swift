@@ -15,6 +15,13 @@ final class PantryListViewModel: ObservableObject {
     @Published private(set) var isLoading: Bool = false
     @Published var errorMessage: String?
     
+    
+    @Published private(set) var overview = PantryOverview(
+        proteinGrams: 0,
+        carbsGrams: 0,
+        fatGrams: 0
+    )
+    
     private let pantryService = PantryService.shared
     
     public func createPantry(_ pantry: Pantry) async {
@@ -27,11 +34,12 @@ final class PantryListViewModel: ObservableObject {
         }
     }
     
-    func loadPantries() async {
+    func load() async {
         isLoading = true
         
         do {
             pantries = try await pantryService.getPantries()
+            overview = try await pantryService.getPantryOverview()
         } catch {
             print(error.localizedDescription)
         }
@@ -46,7 +54,7 @@ final class PantryListViewModel: ObservableObject {
     public func deletePantry(id: UUID) async {
         do {
             try await pantryService.deletePantry(id: id)
-            await loadPantries()
+            await load()
         } catch {
             print(error.localizedDescription)
             errorMessage = error.localizedDescription

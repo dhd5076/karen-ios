@@ -24,33 +24,45 @@ struct PantryListView: View {
                         description: Text("Create a pantry to get started")
                     )
                 } else {
-                    List(viewModel.pantries, id: \.id) { pantry in
-                        NavigationLink {
-                            PantryView(pantryID: pantry.id!) //TODO: This is a forced unwrap, double check
-                        } label: {
-                            Text(pantry.name)
-                        }
-                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                            Button(role: .destructive) {
-                                Task {
-                                    if let pantryId = pantry.id {
-                                        await viewModel.deletePantry(id: pantryId)
+                    List {
+                        
+                        PantrySummaryView(overview: viewModel.overview)
+                        Section() {
+                            ForEach(viewModel.pantries, id: \.id) { pantry in
+                                NavigationLink {
+                                    PantryView(pantryID: pantry.id!) //TODO: This is a forced unwrap, double check
+                                } label: {
+                                    Text(pantry.name)
+                                }
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                    Button(role: .destructive) {
+                                        Task {
+                                            if let pantryId = pantry.id {
+                                                await viewModel.deletePantry(id: pantryId)
+                                            }
+                                        }
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
                                     }
                                 }
-                            } label: {
-                                Label("Delete", systemImage: "trash")
+                            }
+                        } header: {
+                            HStack {
+                                Text("Pantries")
+                                Spacer()
+                                Text("\(viewModel.pantries.count)")
                             }
                         }
                     }
                     .refreshable {
-                        await viewModel.loadPantries()
+                        await viewModel.load()
                     }
                 }
             }
         }
         .navigationTitle("Pantries")
         .task {
-            await viewModel.loadPantries()
+            await viewModel.load()
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {

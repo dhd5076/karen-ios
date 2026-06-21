@@ -8,7 +8,7 @@
 import Foundation
 
 final class APIClient {
-    private let baseURL = URL(string: "http://192.168.1.183:8080")!
+    private let baseURL = URL(string: "https://api.dylandunn.me")!
 
     private let encoder: JSONEncoder
     private let decoder: JSONDecoder

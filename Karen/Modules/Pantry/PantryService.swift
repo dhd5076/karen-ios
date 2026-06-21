@@ -84,4 +84,16 @@ final class PantryService {
             body: request
         )
     }
+    
+    func getPantryOverview() async throws -> PantryOverview {
+        let overview: PantryOverview = try await apiService.get(path + "/overview")
+        
+        return overview;
+    }
+    
+    func getPantryOverviewById(id: UUID) async throws -> PantryOverview {
+        let overview: PantryOverview = try await apiService.get(path + "/\(id.uuidString)/overview")
+        
+        return overview;
+    }
 }

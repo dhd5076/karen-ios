@@ -131,5 +131,7 @@ public struct BatchRowView: View {
 }
 
 #Preview {
-    ContentView()
+    NavigationStack {
+        PantryListView()
+    }
 }
