@@ -1,5 +1,5 @@
 //
-//  InventorySummaryView.swift
+//  PantrySummaryView.swift
 //  Karen
 //
 //  Created by Dylan Dunn on 6/21/26.
@@ -49,7 +49,7 @@ struct PantrySummaryView: View  {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
     
-    public func totalCalories() -> Int {
+    private func totalCalories() -> Int {
         return Int(overview.proteinGrams * 4 + overview.carbsGrams * 4 + overview.fatGrams * 9)
     }
 }

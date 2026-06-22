@@ -29,7 +29,6 @@ final class PantryListViewModel: ObservableObject {
             let createdPantry = try await pantryService.createPantry(pantry: pantry)
             pantries.append(createdPantry)
         } catch {
-            print(error.localizedDescription)
             errorMessage = error.localizedDescription
         }
     }
@@ -41,7 +40,7 @@ final class PantryListViewModel: ObservableObject {
             pantries = try await pantryService.getPantries()
             overview = try await pantryService.getPantryOverview()
         } catch {
-            print(error.localizedDescription)
+            errorMessage = error.localizedDescription
         }
         
         isLoading = false
@@ -56,7 +55,6 @@ final class PantryListViewModel: ObservableObject {
             try await pantryService.deletePantry(id: id)
             await load()
         } catch {
-            print(error.localizedDescription)
             errorMessage = error.localizedDescription
         }
     }

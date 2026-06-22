@@ -17,7 +17,6 @@ final class PantryService {
     private init(apiService: APIClient = .shared) {
         self.apiService = apiService
         path = PantryModule.path(Pantry.baseRoute) //TODO: Revisit this pattern later
-        print(path)
     }
     
     func createPantry(pantry: Pantry) async throws -> Pantry {
