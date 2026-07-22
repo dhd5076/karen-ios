@@ -64,6 +64,12 @@ struct ContentView: View {
                     Label(TaskModule.displayName, systemImage: TaskModule.icon)
                         .foregroundStyle(iconColor)
                 }
+                NavigationLink {
+                    HomeView()
+                } label: {
+                    Label(HomeModule.displayName, systemImage: HomeModule.icon)
+                        .foregroundStyle(iconColor)
+                }
             }
             .navigationTitle("Karen")
             .searchable(text: $searchText, prompt: "Search")

@@ -26,23 +26,19 @@ final class LightListViewModel: ObservableObject {
         } catch {
             errorMessage = error.localizedDescription
         }
+        
+        isLoading = false
     }
     
-    func toggle() {
-            //TODO: Implement here maybe???
-    }
-    
-    func turnOn(id: String) async {
+    func setPower(id: String, isOn: Bool) async {
         do {
-            try await lightService.turnOn(id: id)
-        } catch {
-            errorMessage = error.localizedDescription
-        }
-    }
-    
-    func turnOff(id: String) async {
-        do {
-            try await lightService.turnOff(id: id)
+            if isOn {
+                try await lightService.turnOn(id: id)
+            } else {
+                try await lightService.turnOff(id: id)
+            }
+            
+            await load()
         } catch {
             errorMessage = error.localizedDescription
         }
