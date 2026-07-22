@@ -10,33 +10,66 @@ import KarenShared
 
 struct LightListView: View {
     
-    @StateObject private var viewModel: LightListViewModel
-    
-    //TODO: This is probably wrong, something else is wrong even though this fixes protection level issues
-    init() {
-        _viewModel = StateObject(wrappedValue: LightListViewModel())
-    }
-    
-    init(viewModel: @autoclosure @escaping () -> LightListViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel())
-    }
+    @StateObject private var viewModel = LightListViewModel()
     
     var body: some View {
-        NavigationStack {
-            List {
-                if viewModel.errorMessage != nil {
-                    Text(viewModel.errorMessage!)
-                }
-                ForEach(viewModel.lights, id: \.id) { light in
-                    Text(light.name)
-                }
+        List {
+            if let errorMessage = viewModel.errorMessage {
+                Text(errorMessage)
+                    .foregroundStyle(.red)
             }
+            
+            ForEach(viewModel.lights, id: \.id) { light in
+                lightRow(light)
+            }
+        }
+        .overlay {
+            if viewModel.isLoading {
+                ProgressView("Loading Lights...")
+            }
+        }
+        .navigationTitle("Lights")
+        .refreshable {
+            await viewModel.load()
         }
         .task {
             await viewModel.load()
         }
     }
+    
+    private func lightRow(_ light: Light) -> some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(light.name)
+                    .font(.headline)
+                
+                if let brightness = light.brightness {
+                    Text("Brightness \(brightness, specifier: "%.0f")%")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            
+            Spacer()
+            
+            Toggle(
+                "Power",
+                isOn: Binding(
+                    get: { light.isOn },
+                    set: { isOn in
+                        Task {
+                            await viewModel.setPower(id: light.id, isOn: isOn)
+                        }
+                    }
+                )
+            )
+            .labelsHidden()
+        }
+    }
 }
+
 #Preview {
-    LightListView()
+    NavigationStack {
+        LightListView()
+    }
 }
