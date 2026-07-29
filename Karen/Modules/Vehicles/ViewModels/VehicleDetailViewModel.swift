@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import KarenClient
 import KarenShared
 
 @MainActor
@@ -18,7 +19,7 @@ final class VehicleDetailViewModel: ObservableObject {
 
     let vehicleId: UUID
 
-    private let vehicleService = VehicleService.shared
+    private let client = KarenClientProvider.shared
 
     init(vehicleId: UUID) {
         self.vehicleId = vehicleId
@@ -39,8 +40,8 @@ final class VehicleDetailViewModel: ObservableObject {
         errorMessage = nil
 
         do {
-            async let loadedVehicle = vehicleService.getVehicle(id: vehicleId)
-            async let loadedPlates = vehicleService.getLicensePlateHistory(vehicleId: vehicleId)
+            async let loadedVehicle = client.getVehicle(id: vehicleId)
+            async let loadedPlates = client.getLicensePlateHistory(vehicleId: vehicleId)
             vehicle = try await loadedVehicle
             plateHistory = try await loadedPlates
         } catch {
@@ -56,11 +57,11 @@ final class VehicleDetailViewModel: ObservableObject {
 
     func addLicensePlate(_ request: LicensePlateRequest) async -> String? {
         do {
-            _ = try await vehicleService.createAndAssignLicensePlate(
+            _ = try await client.createAndAssignLicensePlate(
                 vehicleId: vehicleId,
                 request: request
             )
-            plateHistory = try await vehicleService.getLicensePlateHistory(vehicleId: vehicleId)
+            plateHistory = try await client.getLicensePlateHistory(vehicleId: vehicleId)
             return nil
         } catch {
             errorMessage = error.localizedDescription
@@ -70,12 +71,12 @@ final class VehicleDetailViewModel: ObservableObject {
 
     func unassign(_ assignment: VehicleLicensePlateResponse) async {
         do {
-            _ = try await vehicleService.unassignLicensePlate(
+            _ = try await client.unassignLicensePlate(
                 vehicleId: vehicleId,
                 licensePlateId: assignment.licensePlate.id,
                 effectiveAt: Date()
             )
-            plateHistory = try await vehicleService.getLicensePlateHistory(vehicleId: vehicleId)
+            plateHistory = try await client.getLicensePlateHistory(vehicleId: vehicleId)
         } catch {
             errorMessage = error.localizedDescription
         }

@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import KarenClient
 import KarenShared
 
 @MainActor
@@ -15,14 +16,14 @@ final class VehicleListViewModel: ObservableObject {
     @Published private(set) var isLoading = false
     @Published private(set) var errorMessage: String?
 
-    private let vehicleService = VehicleService.shared
+    private let client = KarenClientProvider.shared
 
     func load() async {
         isLoading = true
         errorMessage = nil
 
         do {
-            vehicles = try await vehicleService.getVehicles()
+            vehicles = try await client.getVehicles()
                 .sorted(by: vehicleSort)
         } catch {
             errorMessage = error.localizedDescription
