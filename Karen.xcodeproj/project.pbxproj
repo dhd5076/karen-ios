@@ -109,7 +109,7 @@
 			mainGroup = 65BAB48C2F550E2300A9449B;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				654FD2BA2FD5145200D32168 /* XCLocalSwiftPackageReference "../karen-lib" */,
+				654FD2BA2FD5145200D32168 /* XCLocalSwiftPackageReference "../KarenKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 65BAB48C2F550E2300A9449B;
@@ -367,9 +367,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		654FD2BA2FD5145200D32168 /* XCLocalSwiftPackageReference "../karen-lib" */ = {
+		654FD2BA2FD5145200D32168 /* XCLocalSwiftPackageReference "../KarenKit" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = "../karen-lib";
+			relativePath = "../KarenKit";
 		};
 /* End XCLocalSwiftPackageReference section */
 
