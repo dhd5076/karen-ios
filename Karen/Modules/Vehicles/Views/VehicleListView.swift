@@ -82,7 +82,7 @@ struct VehicleListView: View {
 }
 
 private struct VehicleRowView: View {
-    let vehicle: VehicleResponse
+    let vehicle: Vehicle
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {

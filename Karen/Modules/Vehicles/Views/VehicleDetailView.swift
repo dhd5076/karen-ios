@@ -12,14 +12,14 @@ struct VehicleDetailView: View {
     @StateObject private var viewModel: VehicleDetailViewModel
     @State private var showingEditVehicle = false
     @State private var showingAddLicensePlate = false
-    @State private var plateToUnassign: VehicleLicensePlateResponse?
+    @State private var plateToUnassign: VehicleLicensePlateAssignment?
     @State private var showingUnassignConfirmation = false
 
-    private let onVehicleUpdated: (VehicleResponse) -> Void
+    private let onVehicleUpdated: (Vehicle) -> Void
 
     init(
         vehicleId: UUID,
-        onVehicleUpdated: @escaping (VehicleResponse) -> Void = { _ in }
+        onVehicleUpdated: @escaping (Vehicle) -> Void = { _ in }
     ) {
         _viewModel = StateObject(wrappedValue: VehicleDetailViewModel(vehicleId: vehicleId))
         self.onVehicleUpdated = onVehicleUpdated
@@ -102,7 +102,7 @@ struct VehicleDetailView: View {
         }
     }
 
-    private func vehicleList(_ vehicle: VehicleResponse) -> some View {
+    private func vehicleList(_ vehicle: Vehicle) -> some View {
         List {
             if let errorMessage = viewModel.errorMessage {
                 Section {
@@ -168,7 +168,7 @@ struct VehicleDetailView: View {
     }
 
     private func licensePlateRow(
-        _ assignment: VehicleLicensePlateResponse,
+        _ assignment: VehicleLicensePlateAssignment,
         canUnassign: Bool
     ) -> some View {
         HStack {
@@ -205,7 +205,7 @@ struct VehicleDetailView: View {
         }
     }
 
-    private func hasSpecifications(_ vehicle: VehicleResponse) -> Bool {
+    private func hasSpecifications(_ vehicle: Vehicle) -> Bool {
         vehicle.modelYear != nil ||
             vehicle.make != nil ||
             vehicle.model != nil ||

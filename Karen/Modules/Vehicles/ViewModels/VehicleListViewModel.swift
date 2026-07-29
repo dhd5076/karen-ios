@@ -12,7 +12,7 @@ import KarenShared
 
 @MainActor
 final class VehicleListViewModel: ObservableObject {
-    @Published private(set) var vehicles: [VehicleResponse] = []
+    @Published private(set) var vehicles: [Vehicle] = []
     @Published private(set) var isLoading = false
     @Published private(set) var errorMessage: String?
 
@@ -32,7 +32,7 @@ final class VehicleListViewModel: ObservableObject {
         isLoading = false
     }
 
-    func upsert(_ vehicle: VehicleResponse) {
+    func upsert(_ vehicle: Vehicle) {
         if let index = vehicles.firstIndex(where: { $0.id == vehicle.id }) {
             vehicles[index] = vehicle
         } else {
@@ -42,7 +42,7 @@ final class VehicleListViewModel: ObservableObject {
         vehicles.sort(by: vehicleSort)
     }
 
-    private func vehicleSort(_ left: VehicleResponse, _ right: VehicleResponse) -> Bool {
+    private func vehicleSort(_ left: Vehicle, _ right: Vehicle) -> Bool {
         left.displayName.localizedCaseInsensitiveCompare(right.displayName) == .orderedAscending
     }
 }

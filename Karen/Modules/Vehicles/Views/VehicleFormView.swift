@@ -14,11 +14,11 @@ struct VehicleFormView: View {
     @State private var showingAddMake = false
     @State private var showingAddModel = false
 
-    private let onSaved: (VehicleResponse) -> Void
+    private let onSaved: (Vehicle) -> Void
 
     init(
-        vehicle: VehicleResponse? = nil,
-        onSaved: @escaping (VehicleResponse) -> Void
+        vehicle: Vehicle? = nil,
+        onSaved: @escaping (Vehicle) -> Void
     ) {
         _viewModel = StateObject(wrappedValue: VehicleFormViewModel(vehicle: vehicle))
         self.onSaved = onSaved

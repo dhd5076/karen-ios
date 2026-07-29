@@ -21,20 +21,20 @@ final class VehicleFormViewModel: ObservableObject {
     @Published var color: String
     @Published var vin: String
 
-    @Published private(set) var makes: [VehicleMakeResponse] = []
-    @Published private(set) var models: [VehicleModelResponse] = []
+    @Published private(set) var makes: [VehicleMake] = []
+    @Published private(set) var models: [VehicleModel] = []
     @Published private(set) var isLoadingCatalog = false
     @Published private(set) var isSaving = false
     @Published private(set) var errorMessage: String?
 
-    let vehicle: VehicleResponse?
+    let vehicle: Vehicle?
     let commonVehicleTypes = [
         "car", "truck", "suv", "van", "motorcycle", "tractor", "trailer", "other"
     ]
 
     private let client = KarenClientProvider.shared
 
-    init(vehicle: VehicleResponse? = nil) {
+    init(vehicle: Vehicle? = nil) {
         self.vehicle = vehicle
         displayName = vehicle?.displayName ?? ""
         vehicleType = vehicle?.vehicleType ?? "car"
@@ -122,7 +122,7 @@ final class VehicleFormViewModel: ObservableObject {
         }
     }
 
-    func save() async -> VehicleResponse? {
+    func save() async -> Vehicle? {
         errorMessage = nil
 
         let cleanName = displayName.trimmingCharacters(in: .whitespacesAndNewlines)

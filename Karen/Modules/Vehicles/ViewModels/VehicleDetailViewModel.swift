@@ -12,8 +12,8 @@ import KarenShared
 
 @MainActor
 final class VehicleDetailViewModel: ObservableObject {
-    @Published private(set) var vehicle: VehicleResponse?
-    @Published private(set) var plateHistory: [VehicleLicensePlateResponse] = []
+    @Published private(set) var vehicle: Vehicle?
+    @Published private(set) var plateHistory: [VehicleLicensePlateAssignment] = []
     @Published private(set) var isLoading = false
     @Published private(set) var errorMessage: String?
 
@@ -25,11 +25,11 @@ final class VehicleDetailViewModel: ObservableObject {
         self.vehicleId = vehicleId
     }
 
-    var activePlates: [VehicleLicensePlateResponse] {
+    var activePlates: [VehicleLicensePlateAssignment] {
         plateHistory.filter { $0.validUntil == nil }
     }
 
-    var historicalPlates: [VehicleLicensePlateResponse] {
+    var historicalPlates: [VehicleLicensePlateAssignment] {
         plateHistory
             .filter { $0.validUntil != nil }
             .sorted { ($0.validUntil ?? .distantPast) > ($1.validUntil ?? .distantPast) }
@@ -51,7 +51,7 @@ final class VehicleDetailViewModel: ObservableObject {
         isLoading = false
     }
 
-    func apply(_ vehicle: VehicleResponse) {
+    func apply(_ vehicle: Vehicle) {
         self.vehicle = vehicle
     }
 
@@ -69,7 +69,7 @@ final class VehicleDetailViewModel: ObservableObject {
         }
     }
 
-    func unassign(_ assignment: VehicleLicensePlateResponse) async {
+    func unassign(_ assignment: VehicleLicensePlateAssignment) async {
         do {
             _ = try await client.unassignLicensePlate(
                 vehicleId: vehicleId,
