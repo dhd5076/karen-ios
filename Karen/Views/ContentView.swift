@@ -65,6 +65,12 @@ struct ContentView: View {
                         .foregroundStyle(iconColor)
                 }
                 NavigationLink {
+                    VehicleListView()
+                } label: {
+                    Label(VehicleModule.displayName, systemImage: VehicleModule.icon)
+                        .foregroundStyle(iconColor)
+                }
+                NavigationLink {
                     HomeView()
                 } label: {
                     Label(HomeModule.displayName, systemImage: HomeModule.icon)
