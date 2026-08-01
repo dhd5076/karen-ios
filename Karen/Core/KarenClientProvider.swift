@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import KarenClient
+import KarenKit
 
 enum KarenClientProvider {
     static let shared: KarenClient = {
