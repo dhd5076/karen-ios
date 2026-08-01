@@ -16,14 +16,14 @@ final class VehicleListViewModel: ObservableObject {
     @Published private(set) var isLoading = false
     @Published private(set) var errorMessage: String?
 
-    private let client = KarenClientProvider.shared
+    private let vehicleService = KarenClientProvider.shared.vehicles
 
     func load() async {
         isLoading = true
         errorMessage = nil
 
         do {
-            vehicles = try await client.getVehicles()
+            vehicles = try await vehicleService.getAll()
                 .sorted(by: vehicleSort)
         } catch {
             errorMessage = error.localizedDescription

@@ -19,7 +19,7 @@ final class VehicleDetailViewModel: ObservableObject {
 
     let vehicleId: UUID
 
-    private let client = KarenClientProvider.shared
+    private let vehicleService = KarenClientProvider.shared.vehicles
 
     init(vehicleId: UUID) {
         self.vehicleId = vehicleId
@@ -40,8 +40,8 @@ final class VehicleDetailViewModel: ObservableObject {
         errorMessage = nil
 
         do {
-            async let loadedVehicle = client.getVehicle(id: vehicleId)
-            async let loadedPlates = client.getLicensePlateHistory(vehicleId: vehicleId)
+            async let loadedVehicle = vehicleService.get(id: vehicleId)
+            async let loadedPlates = vehicleService.getLicensePlateHistory(vehicleId: vehicleId)
             vehicle = try await loadedVehicle
             plateHistory = try await loadedPlates
         } catch {
@@ -57,11 +57,11 @@ final class VehicleDetailViewModel: ObservableObject {
 
     func addLicensePlate(_ request: LicensePlateRequest) async -> String? {
         do {
-            _ = try await client.createAndAssignLicensePlate(
+            _ = try await vehicleService.createAndAssignLicensePlate(
                 vehicleId: vehicleId,
                 request: request
             )
-            plateHistory = try await client.getLicensePlateHistory(vehicleId: vehicleId)
+            plateHistory = try await vehicleService.getLicensePlateHistory(vehicleId: vehicleId)
             return nil
         } catch {
             errorMessage = error.localizedDescription
@@ -71,12 +71,12 @@ final class VehicleDetailViewModel: ObservableObject {
 
     func unassign(_ assignment: VehicleLicensePlateAssignment) async {
         do {
-            _ = try await client.unassignLicensePlate(
+            _ = try await vehicleService.unassignLicensePlate(
                 vehicleId: vehicleId,
                 licensePlateId: assignment.licensePlate.id,
                 effectiveAt: Date()
             )
-            plateHistory = try await client.getLicensePlateHistory(vehicleId: vehicleId)
+            plateHistory = try await vehicleService.getLicensePlateHistory(vehicleId: vehicleId)
         } catch {
             errorMessage = error.localizedDescription
         }

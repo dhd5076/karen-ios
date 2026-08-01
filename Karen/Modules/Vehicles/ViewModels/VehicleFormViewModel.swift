@@ -32,7 +32,7 @@ final class VehicleFormViewModel: ObservableObject {
         "car", "truck", "suv", "van", "motorcycle", "tractor", "trailer", "other"
     ]
 
-    private let client = KarenClientProvider.shared
+    private let vehicleService = KarenClientProvider.shared.vehicles
 
     init(vehicle: Vehicle? = nil) {
         self.vehicle = vehicle
@@ -63,9 +63,9 @@ final class VehicleFormViewModel: ObservableObject {
         errorMessage = nil
 
         do {
-            makes = try await client.getVehicleMakes()
+            makes = try await vehicleService.getMakes()
             if let makeId {
-                models = try await client.getVehicleModels(makeId: makeId)
+                models = try await vehicleService.getModels(makeId: makeId)
             }
         } catch {
             errorMessage = error.localizedDescription
@@ -80,7 +80,7 @@ final class VehicleFormViewModel: ObservableObject {
         guard let newMakeId else { return }
 
         do {
-            models = try await client.getVehicleModels(makeId: newMakeId)
+            models = try await vehicleService.getModels(makeId: newMakeId)
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -88,7 +88,7 @@ final class VehicleFormViewModel: ObservableObject {
 
     func createMake(displayName: String) async -> Bool {
         do {
-            let make = try await client.createVehicleMake(displayName: displayName)
+            let make = try await vehicleService.createMake(displayName: displayName)
             makes.append(make)
             makes.sort { $0.displayName.localizedCaseInsensitiveCompare($1.displayName) == .orderedAscending }
             makeId = make.id
@@ -108,7 +108,7 @@ final class VehicleFormViewModel: ObservableObject {
         }
 
         do {
-            let model = try await client.createVehicleModel(
+            let model = try await vehicleService.createModel(
                 makeId: makeId,
                 displayName: displayName
             )
@@ -164,9 +164,9 @@ final class VehicleFormViewModel: ObservableObject {
 
         do {
             if let vehicle {
-                return try await client.updateVehicle(id: vehicle.id, request: request)
+                return try await vehicleService.update(id: vehicle.id, request: request)
             }
-            return try await client.createVehicle(request)
+            return try await vehicleService.create(request)
         } catch {
             errorMessage = error.localizedDescription
             return nil
