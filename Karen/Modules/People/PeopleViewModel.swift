@@ -1,74 +1,59 @@
 //
-//  PeopleViewMode.swift
+//  PeopleViewModel.swift
 //  Karen
 //
 //  Created by Dylan Dunn on 4/5/26.
 //
 
-import Foundation
 import Combine
+import Foundation
+import KarenKit
 
 @MainActor
 final class PeopleViewModel: ObservableObject {
     @Published var searchText = ""
-    @Published var people: [Person] = []
-    @Published var isLoading: Bool = false
-    @Published var errorMessage: String?
+    @Published private(set) var people: [Person] = []
+    @Published private(set) var isLoading = false
+    @Published private(set) var errorMessage: String?
 
-    private let peopleService = PeopleService.shared
-    
-    init() {
-        Task {
-            await getAllPeople()
+    private let peopleService = KarenClientProvider.shared.people
+
+    var filteredPeople: [Person] {
+        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !query.isEmpty else { return people }
+
+        return people.filter { person in
+            person.displayName.localizedCaseInsensitiveContains(query) ||
+                person.firstName.localizedCaseInsensitiveContains(query) ||
+                (person.middleName?.localizedCaseInsensitiveContains(query) ?? false) ||
+                (person.lastName?.localizedCaseInsensitiveContains(query) ?? false)
         }
     }
-    
-    func update(_ person: Person) async {
-        do {
-            try await peopleService.update(person)
-        } catch {
-            errorMessage = error.localizedDescription
-        }
-    }
-    
-    func create(_ person: Person) async {
-        do {
-            try await peopleService.create(person)
-        } catch {
-            errorMessage = error.localizedDescription
-        }
-    }
-    
-    func searchByName() async {
-        let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        guard !trimmed.isEmpty else {
-            await getAllPeople()
-            return
-        }
-        
+
+    func load() async {
         isLoading = true
         errorMessage = nil
-        
+
         do {
-            people = try await peopleService.searchByName(query: trimmed)
+            people = try await peopleService.getAll().sorted(by: personSort)
         } catch {
-            people = []
             errorMessage = error.localizedDescription
         }
-        
+
         isLoading = false
     }
-    
-    func getAllPeople() async {
-        isLoading = true
-        errorMessage = nil
-        do {
-            people = try await peopleService.getAll()
-        } catch {
-            errorMessage = error.localizedDescription
+
+    func upsert(_ person: Person) {
+        if let index = people.firstIndex(where: { $0.id == person.id }) {
+            people[index] = person
+        } else {
+            people.append(person)
         }
-        
-        isLoading = false
+
+        people.sort(by: personSort)
+    }
+
+    private func personSort(_ left: Person, _ right: Person) -> Bool {
+        left.displayName.localizedCaseInsensitiveCompare(right.displayName) == .orderedAscending
     }
 }

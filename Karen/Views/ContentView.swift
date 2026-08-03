@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import KarenKit
 import KarenShared
 
 
@@ -49,7 +50,7 @@ struct ContentView: View {
                 NavigationLink {
                     PeopleView()
                 } label: {
-                    Label("People", systemImage: "person.fill")
+                    Label(PeopleModule.displayName, systemImage: PeopleModule.icon)
                         .foregroundStyle(iconColor)
                 }
                 NavigationLink {
@@ -74,6 +75,12 @@ struct ContentView: View {
                     HomeView()
                 } label: {
                     Label(HomeModule.displayName, systemImage: HomeModule.icon)
+                        .foregroundStyle(iconColor)
+                }
+                NavigationLink {
+                    AtlasView()
+                } label: {
+                    Label(AtlasModule.displayName, systemImage: AtlasModule.icon)
                         .foregroundStyle(iconColor)
                 }
             }
