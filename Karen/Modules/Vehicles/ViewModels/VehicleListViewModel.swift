@@ -7,7 +7,6 @@
 
 import Combine
 import Foundation
-import KarenClient
 import KarenShared
 
 @MainActor

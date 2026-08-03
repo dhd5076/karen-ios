@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		654FD2BC2FD5145200D32168 /* KarenShared in Frameworks */ = {isa = PBXBuildFile; productRef = 654FD2BB2FD5145200D32168 /* KarenShared */; };
-		7A0000012FF0000000000001 /* KarenClient in Frameworks */ = {isa = PBXBuildFile; productRef = 7A0000022FF0000000000001 /* KarenClient */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,7 +40,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A0000012FF0000000000001 /* KarenClient in Frameworks */,
 				654FD2BC2FD5145200D32168 /* KarenShared in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -77,7 +75,6 @@
 			);
 			name = Karen;
 			packageProductDependencies = (
-				7A0000022FF0000000000001 /* KarenClient */,
 				654FD2BB2FD5145200D32168 /* KarenShared */,
 			);
 			productName = Karen;
@@ -369,7 +366,7 @@
 /* Begin XCLocalSwiftPackageReference section */
 		654FD2BA2FD5145200D32168 /* XCLocalSwiftPackageReference "../KarenKit" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = "../KarenKit";
+			relativePath = ../KarenKit;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -377,10 +374,6 @@
 		654FD2BB2FD5145200D32168 /* KarenShared */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = KarenShared;
-		};
-		7A0000022FF0000000000001 /* KarenClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = KarenClient;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
